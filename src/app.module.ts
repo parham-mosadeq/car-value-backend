@@ -5,6 +5,7 @@ import { UsersController } from './users/users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/users.entity';
 import { ReportsController } from './reports/reports.controller';
+import { Report } from './reports/report.entity';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { ReportsController } from './reports/reports.controller';
       type: 'sqlite',
       database: 'db.sqlite',
       // * Will be filled later
-      entities: [User],
+      entities: [User, Report],
       synchronize: true,
     }),
   ],
