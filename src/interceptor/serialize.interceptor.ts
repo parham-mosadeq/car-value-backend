@@ -7,7 +7,11 @@ import {
 import { plainToClass } from 'class-transformer';
 import { map, Observable } from 'rxjs';
 
-export function Serialize(dto: any) {
+interface IClassInterceptor {
+  new (...args: any[]);
+}
+
+export function Serialize(dto: IClassInterceptor) {
   return UseInterceptors(new SerializerInterceptor(dto));
 }
 
@@ -19,7 +23,6 @@ export class SerializerInterceptor implements NestInterceptor {
   ): Observable<any> | Promise<Observable<any>> {
     return next.handle().pipe(
       map((data: any) => {
-        console.log(data, 'in middle');
         return plainToClass(this.dto, data, { excludeExtraneousValues: true });
       }),
     );
