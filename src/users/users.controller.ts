@@ -8,10 +8,13 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { Serialize } from 'src/interceptor/serialize.interceptor';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UserDto } from './dto/user.dto';
 import { UsersService } from './users.service';
 
 @Controller('auth')
+@Serialize(UserDto)
 export class UsersController {
   constructor(private userService: UsersService) {}
 
@@ -42,7 +45,7 @@ export class UsersController {
   }
 
   @Patch('/:id')
-  updateUser(@Param('id') id: string, @Body() body: CreateUserDto) {
+  updateUser(@Param('id') id: string, @Body() body: Partial<CreateUserDto>) {
     return this.userService.update(+id, body);
   }
 }
