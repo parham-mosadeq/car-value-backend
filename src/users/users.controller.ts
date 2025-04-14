@@ -1,3 +1,4 @@
+import { CurrentUser } from './decorator/current-user.decorator';
 import {
   Body,
   Controller,
@@ -14,6 +15,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserDto } from './dto/user.dto';
 import { UsersService } from './users.service';
 import { AuthService } from './auth.service';
+import { User } from './users.entity';
 
 @Controller('auth')
 @Serialize(UserDto)
@@ -23,9 +25,14 @@ export class UsersController {
     private authService: AuthService,
   ) {}
 
+  // @Get('/whoami')
+  // whoAmI(@Session() session: Record<string, string | number>) {
+  //   return this.userService.findOne(+session.userId);
+  // }
   @Get('/whoami')
-  whoAmI(@Session() session: Record<string, string | number>) {
-    return this.userService.findOne(+session.userId);
+  whoAmI(@CurrentUser() user: User) {
+    // return this.userService.findOne(+session.userId);
+    return user;
   }
 
   @Post('/signout')
